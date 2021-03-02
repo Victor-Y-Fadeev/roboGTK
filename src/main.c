@@ -3,6 +3,7 @@
 
 /* Surface to store current scribbles */
 static cairo_surface_t *surface = NULL;
+int i = 0;
 
 
 static void clear_surface(void)
@@ -15,6 +16,7 @@ static void clear_surface(void)
 	cairo_destroy(cr);
 }
 
+static void draw_brush(GtkWidget *widget, gdouble x, gdouble y);
 /* Create a new surface of the appropriate size to store our scribbles */
 static gboolean configure_event_cb(GtkWidget *widget, GdkEventConfigure *event, gpointer data)
 {
@@ -43,6 +45,9 @@ static gboolean draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	cairo_set_source_surface(cr, surface, 0, 0);
 	cairo_paint(cr);
+
+	draw_brush(widget, i % 630, i / 630);
+	i++;
 
 	return FALSE;
 }
@@ -125,35 +130,36 @@ static void activate(GtkApplication *app, gpointer user_data)
 
 	g_signal_connect(window, "destroy", G_CALLBACK(close_window), NULL);
 
-	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
+	gtk_container_set_border_width(GTK_CONTAINER(window), 0);
 
 
-	GtkWidget *frame = gtk_frame_new(NULL);
+	/*GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
-	gtk_container_add(GTK_CONTAINER(window), frame);
+	gtk_container_add(GTK_CONTAINER(window), frame);*/
 
 
 	GtkWidget *drawing_area = gtk_drawing_area_new();
 	/* set a minimum size */
-	gtk_widget_set_size_request(drawing_area, 100, 100);
+	gtk_widget_set_size_request(drawing_area, 630, 420);
 
-	gtk_container_add(GTK_CONTAINER(frame), drawing_area);
+	gtk_container_add(GTK_CONTAINER(window), drawing_area);
 
 	/* Signals used to handle the backing surface */
+	g_signal_connect(drawing_area, "configure-event", G_CALLBACK(configure_event_cb), NULL);
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(draw_cb), NULL);
-	g_signal_connect(drawing_area,"configure-event", G_CALLBACK(configure_event_cb), NULL);
+	//g_signal_connect(drawing_area, "configure-event", G_CALLBACK(configure_event_cb), NULL);
 
 	/* Event signals */
-	g_signal_connect(drawing_area, "motion-notify-event", G_CALLBACK(motion_notify_event_cb), NULL);
-	g_signal_connect(drawing_area, "button-press-event", G_CALLBACK(button_press_event_cb), NULL);
+	//g_signal_connect(drawing_area, "motion-notify-event", G_CALLBACK(motion_notify_event_cb), NULL);
+	//g_signal_connect(drawing_area, "button-press-event", G_CALLBACK(button_press_event_cb), NULL);
 
 	/* Ask to receive events the drawing area doesn't normally
 	 * subscribe to. In particular, we need to ask for the
 	 * button press and motion notify events that want to handle.
 	 */
-	gtk_widget_set_events(drawing_area, gtk_widget_get_events(drawing_area)
+	/*gtk_widget_set_events(drawing_area, gtk_widget_get_events(drawing_area)
 		| GDK_BUTTON_PRESS_MASK
-		| GDK_POINTER_MOTION_MASK);
+		| GDK_POINTER_MOTION_MASK);*/
 
 
 	gtk_widget_show_all(window);
