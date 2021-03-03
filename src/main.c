@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include "surface.h"
 
 
 static const char *const APPLICATION = "org.gtk.example";
@@ -8,39 +9,16 @@ static const gint MIN_WIDTH = 630;
 static const gint MIN_HEIGHT = 420;
 
 
-/* Surface to store current scribbles */
-static cairo_surface_t *surface = NULL;
 static int i = 0;
 
-
-static void draw_brush(GtkWidget *widget, gdouble x, gdouble y);
-
-
-static void clear_surface(void)
-{
-	cairo_t *cr = cairo_create(surface);
-
-	cairo_set_source_rgb(cr, 1, 1, 1);
-	cairo_paint(cr);
-
-	cairo_destroy(cr);
-}
 
 /* Create a new surface of the appropriate size to store our scribbles */
 static gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer data)
 {
-	if (surface)
-	{
-		cairo_surface_destroy(surface);
-	}
-
-	surface = gdk_window_create_similar_surface(gtk_widget_get_window(widget),
-		CAIRO_CONTENT_COLOR,
-		gtk_widget_get_allocated_width(widget),
-		gtk_widget_get_allocated_height(widget));
+	resize(widget);
 
 	/* Initialize the surface to white */
-	clear_surface();
+	update();
 
 	/* We've handled the configure event, no need for further processing. */
 	return TRUE;
@@ -52,37 +30,20 @@ static gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpo
  */
 static gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
-	cairo_set_source_surface(cr, surface, 0, 0);
+	/*cairo_set_source_surface(cr, surface, 0, 0);
 	cairo_paint(cr);
 
 	draw_brush(widget, i % 630, i / 630);
-	i += 6;
+	i += 6;*/
 
-	return FALSE;
+	return update();
 }
 
-/* Draw a rectangle on the surface at the given position */
-static void draw_brush(GtkWidget *widget, gdouble x, gdouble y)
-{
-	/* Paint to the surface, where we store our state */
-	cairo_t *cr = cairo_create(surface);
 
-	cairo_rectangle(cr, x - 3, y - 3, 6, 6);
-	cairo_fill(cr);
-
-	cairo_destroy(cr);
-
-	/* Now invalidate the affected region of the drawing area. */
-	gtk_widget_queue_draw_area(widget, x - 3, y - 3, 6, 6);
-	//gtk_widget_queue_draw(widget);
-}
 
 static void close_window(void)
 {
-	if (surface)
-	{
-		cairo_surface_destroy(surface);
-	}
+	destroy();
 }
 
 static void activate(GtkApplication *app, gpointer user_data)
