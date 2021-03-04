@@ -42,11 +42,11 @@ void init()
 
 	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
 	{
-		const int half = ceil((double)MAX_ROBOTS / 2);
-		robots[i].x = i < half
+		robots[i].x = i < MAX_ROBOTS / 2
 						? (1 + i % 2) * MAX_WIDTH / 6
 						: (1 + i % 2) * MAX_WIDTH / 6 + MAX_WIDTH / 2;
 
+		const int half = ceil((double)MAX_ROBOTS / 2);
 		const int quarter = ceil((double)MAX_ROBOTS / 4);
 		robots[i].y = (1 + (i % half) / 2) * MAX_HEIGHT / (1 + quarter);
 

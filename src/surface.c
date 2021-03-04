@@ -48,7 +48,8 @@ static void draw_robot(cairo_t *cr, uint8_t num)
 
 	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
 
-	cairo_set_color(cr, OBJECT);
+	//cairo_set_color(cr, OBJECT);
+	cairo_set_color(cr, num < MAX_ROBOTS / 2 ? FIRST : SECOND);
 	cairo_arc(cr, 0, 0, cm_diameter / 2, 0, 2 * G_PI);
 
 	//cairo_set_color(cr, num < MAX_ROBOTS / 2 ? FIRST : SECOND);
