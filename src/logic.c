@@ -41,6 +41,13 @@ void init()
 	x_ball = MAX_WIDTH / 2;
 	y_ball = MAX_HEIGHT / 2;
 
+
+	double x_cur = 0;
+	double x_inc = 1;
+
+	double y_cur = -3;
+	double y_inc = 1;
+
 	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
 	{
 		robots[i].x = i < MAX_ROBOTS / 2 ? 0 : MAX_WIDTH / 2;
@@ -50,9 +57,15 @@ void init()
 		const int quarter = ceil((double)MAX_ROBOTS / 4);
 		robots[i].y = (1 + (i % half) / 2) * MAX_HEIGHT / (1 + quarter);
 
-		robots[i].x_speed = 1;
-		robots[i].y_speed = -5;
+		robots[i].x_speed = x_cur;
+		x_cur += x_inc;
+		x_inc *= abs(x_cur) == 3 ? -1 : 1;
+
+		robots[i].y_speed = y_cur;
+		y_cur += y_inc;
+		y_inc *= abs(y_cur) == 3 ? -1 : 1;
 	}
+
 
 	clock_gettime(CLOCK_MONOTONIC_RAW, &last);
 }
