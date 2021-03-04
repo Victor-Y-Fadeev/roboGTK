@@ -27,7 +27,7 @@ static inline void cairo_set_color(cairo_t *cr, color_t color)
 		, (double)(color & 0x0000FF) / 0xFF);
 }
 
-static void clear_surface(void)
+static void update_surface(void)
 {
 	cairo_t *cr = cairo_create(surface);
 
@@ -45,22 +45,6 @@ static void clear_surface(void)
 	//cairo_paint(cr);*/
 
 	cairo_destroy(cr);
-}
-
-/* Draw a rectangle on the surface at the given position */
-static void draw_brush(GtkWidget *widget, gdouble x, gdouble y)
-{
-	/* Paint to the surface, where we store our state */
-	cairo_t *cr = cairo_create(surface);
-
-	cairo_rectangle(cr, x - 3, y - 3, 6, 6);
-	cairo_fill(cr);
-
-	cairo_destroy(cr);
-
-	/* Now invalidate the affected region of the drawing area. */
-	gtk_widget_queue_draw_area(widget, x - 3, y - 3, 6, 6);
-	//gtk_widget_queue_draw(widget);
 }
 
 
@@ -85,16 +69,10 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
 		, gtk_widget_get_allocated_width(widget)
 		, gtk_widget_get_allocated_height(widget));
 
-	if (!surface)
-	{
-		return FALSE;
-	}
+	/* Initialize the surface */
+	update_surface();
 
-	/*cairo_t *cr = cairo_create(surface);
-	const gboolean res = draw(widget, cr, data);
-	cairo_destroy(cr);*/
-	clear_surface();
-
+	/* We've handled the configure event, no need for further processing. */
 	return TRUE;
 }
 
@@ -103,6 +81,7 @@ gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_set_source_surface(cr, surface, 0, 0);
 	cairo_paint(cr);
 
+	update_surface();
 	return FALSE;
 }
 
