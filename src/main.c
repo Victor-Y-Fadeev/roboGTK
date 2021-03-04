@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include "logic.h"
 #include "surface.h"
 
 
@@ -36,6 +37,9 @@ static void activate(GtkApplication *app, gpointer user_data)
 
 int main(int argc, char **argv)
 {
+	/* Initialize logic */
+	init();
+
 	GtkApplication *app = gtk_application_new(APPLICATION, G_APPLICATION_FLAGS_NONE);
 	g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
 

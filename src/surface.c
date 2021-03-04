@@ -3,7 +3,7 @@
 #include "logic.h"
 
 
-/* Color type */
+/** Color type */
 typedef uint32_t color_t;
 
 
@@ -15,12 +15,12 @@ const color_t FIRST = 0xFFD966;
 const color_t SECOND = 0x9DC3E6;
 
 
+/* Surface to store current scribbles */
+cairo_surface_t *surface = NULL;
+
 /* Current window size */
 int width = 0;
 int height = 0;
-
-/* Surface to store current scribbles */
-cairo_surface_t *surface = NULL;
 
 
 static inline void cairo_set_color(cairo_t *cr, color_t color)
@@ -31,7 +31,48 @@ static inline void cairo_set_color(cairo_t *cr, color_t color)
 		, (double)(color & 0x0000FF) / 0xFF);
 }
 
-static void background(cairo_t *cr)
+static void draw_robot(cairo_t *cr, uint8_t num)
+{
+	/*cairo_set_color(cr, BACKGROUND);
+	cairo_paint(cr);
+
+	cairo_set_color(cr, LINE);
+	cairo_rectangle(cr, 100, 100, 8800, 5800);
+	cairo_fill(cr);*/
+
+	//cairo_translate(cr, 100, 100);
+	//cairo_scale(cr, 1.5, 1);
+	//cairo_translate(cr, -100, -100);
+
+	/*cairo_set_color(cr, LINE);
+	cairo_rectangle(cr, 50, 50, 100, 100);
+	cairo_rectangle(cr, 100, 100, 100, 100);
+	cairo_fill(cr);
+
+	cairo_destroy(cr);
+	cr = cairo_create(surface);
+
+	cairo_translate(cr, 100, 100);
+	cairo_scale(cr, 1.5, 1);
+
+	cairo_save(cr);
+	cairo_rotate(cr, 1.5);
+	cairo_set_color(cr, FIRST);
+	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
+	cairo_fill(cr);
+	cairo_restore(cr);
+
+	cairo_set_color(cr, SECOND);
+	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
+	cairo_fill(cr);*/
+}
+
+static void draw_ball(cairo_t *cr)
+{
+
+}
+
+static void draw_field(cairo_t *cr)
 {
 	const double cm_width = 27;
 	const double cm_height = 18;
@@ -96,41 +137,19 @@ static void update_surface()
 		cairo_scale(cr, scale, scale);
 	}
 
-	background(cr);
-	/*cairo_set_color(cr, BACKGROUND);
-	cairo_paint(cr);
 
-	cairo_set_color(cr, LINE);
-	cairo_rectangle(cr, 100, 100, 8800, 5800);
-	cairo_fill(cr);*/
+	draw_field(cr);
+	draw_ball(cr);
 
-	//cairo_translate(cr, 100, 100);
-	//cairo_scale(cr, 1.5, 1);
-	//cairo_translate(cr, -100, -100);
-
-	/*cairo_set_color(cr, LINE);
-	cairo_rectangle(cr, 50, 50, 100, 100);
-	cairo_rectangle(cr, 100, 100, 100, 100);
-	cairo_fill(cr);
+	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
+	{
+		draw_robot(cr, i);
+	}
 
 	cairo_destroy(cr);
-	cr = cairo_create(surface);
 
-	cairo_translate(cr, 100, 100);
-	cairo_scale(cr, 1.5, 1);
-
-	cairo_save(cr);
-	cairo_rotate(cr, 1.5);
-	cairo_set_color(cr, FIRST);
-	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
-	cairo_fill(cr);
-	cairo_restore(cr);
-
-	cairo_set_color(cr, SECOND);
-	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
-	cairo_fill(cr);*/
-
-	cairo_destroy(cr);
+	/* Move robots */
+	move();
 }
 
 
