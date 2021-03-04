@@ -34,8 +34,7 @@ static inline void cairo_set_color(cairo_t *cr, color_t color)
 
 static void draw_robot(cairo_t *cr, uint8_t num)
 {
-	const double cm_width = 27;
-	const double cm_height = 18;
+	const double cm_scale = 1000.0 / 3;
 	const double cm_diameter = 1;
 
 	const double cm_centre = cm_diameter / 3;
@@ -47,7 +46,7 @@ static void draw_robot(cairo_t *cr, uint8_t num)
 	const int stop = robot(num, &x, &y, &angle);
 	cairo_translate(cr, x, y);
 
-	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
+	cairo_scale(cr, cm_scale, cm_scale);
 
 	cairo_set_color(cr, OBJECT);
 	cairo_arc(cr, 0, 0, cm_diameter / 2, 0, 2 * G_PI);
@@ -89,8 +88,7 @@ static void draw_robot(cairo_t *cr, uint8_t num)
 
 static void draw_ball(cairo_t *cr)
 {
-	const double cm_width = 27;
-	const double cm_height = 18;
+	const double cm_scale = 1000.0 / 3;
 	const double cm_diameter = 1.0 / 3;
 
 	cairo_save(cr);
@@ -99,7 +97,7 @@ static void draw_ball(cairo_t *cr)
 	ball(&x, &y);
 	cairo_translate(cr, x, y);
 
-	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
+	cairo_scale(cr, cm_scale, cm_scale);
 
 	cairo_set_color(cr, OBJECT);
 	cairo_arc(cr, 0, 0, cm_diameter / 2, 0, 2 * G_PI);
@@ -110,15 +108,17 @@ static void draw_ball(cairo_t *cr)
 
 static void draw_field(cairo_t *cr)
 {
-	const double cm_width = 27;
-	const double cm_height = 18;
+	const double cm_scale = 1000.0 / 3;
+
+	const double cm_width = MAX_WIDTH / cm_scale;
+	const double cm_height = MAX_HEIGHT / cm_scale;
 	const double cm_line = 0.25;
 
 	const double cm_gate_width = cm_width / 9 - cm_line;
 	const double cm_gate_height = cm_height / 3;
 
 	cairo_save(cr);
-	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
+	cairo_scale(cr, cm_scale, cm_scale);
 
 	cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
