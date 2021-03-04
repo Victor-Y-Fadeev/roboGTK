@@ -1,4 +1,5 @@
 #include "surface.h"
+#include <math.h>
 #include <stdint.h>
 #include "logic.h"
 
@@ -48,48 +49,42 @@ static void draw_robot(cairo_t *cr, uint8_t num)
 
 	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
 
-	//cairo_set_color(cr, OBJECT);
-	cairo_set_color(cr, num < MAX_ROBOTS / 2 ? FIRST : SECOND);
+	cairo_set_color(cr, OBJECT);
 	cairo_arc(cr, 0, 0, cm_diameter / 2, 0, 2 * G_PI);
-
-	//cairo_set_color(cr, num < MAX_ROBOTS / 2 ? FIRST : SECOND);
-
 	cairo_fill(cr);
+
+
+	cairo_set_color(cr, num < MAX_ROBOTS / 2 ? FIRST : SECOND);
+	cairo_arc(cr, 0, 0, cm_centre / 2, 0, 2 * G_PI);
+	cairo_fill(cr);
+
+	if (!stop)
+	{
+		cairo_rotate(cr, angle);
+		cairo_move_to(cr, 0, -cm_diameter / 2);
+
+		double cathetus = sqrt(pow(cm_diameter / 2, 2) - pow(cm_diameter / 2 - cm_arrow, 2));
+		cairo_rel_line_to(cr, -cathetus, cm_arrow);
+		cairo_rel_line_to(cr, 2 * cathetus, 0);
+		cairo_close_path(cr);
+
+		cairo_rectangle(cr, -cm_centre / 2, 0, cm_centre, cm_arrow - cm_diameter / 2);
+		cairo_fill(cr);
+		cairo_rotate(cr, -angle);
+	}
+
+
+	cairo_set_color(cr, OBJECT);
+	cairo_select_font_face(cr, "Calibri", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+	cairo_set_font_size(cr, cm_centre);
+
+	cairo_move_to(cr, -cm_centre / 2.75, cm_centre / 2.75);
+
+	char buf[3];
+	sprintf(buf, "%01X", num + 1);
+	cairo_show_text(cr, buf);
 
 	cairo_restore(cr);
-
-	/*cairo_set_color(cr, BACKGROUND);
-	cairo_paint(cr);
-
-	cairo_set_color(cr, LINE);
-	cairo_rectangle(cr, 100, 100, 8800, 5800);
-	cairo_fill(cr);*/
-
-	//cairo_translate(cr, 100, 100);
-	//cairo_scale(cr, 1.5, 1);
-	//cairo_translate(cr, -100, -100);
-
-	/*cairo_set_color(cr, LINE);
-	cairo_rectangle(cr, 50, 50, 100, 100);
-	cairo_rectangle(cr, 100, 100, 100, 100);
-	cairo_fill(cr);
-
-	cairo_destroy(cr);
-	cr = cairo_create(surface);
-
-	cairo_translate(cr, 100, 100);
-	cairo_scale(cr, 1.5, 1);
-
-	cairo_save(cr);
-	cairo_rotate(cr, 1.5);
-	cairo_set_color(cr, FIRST);
-	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
-	cairo_fill(cr);
-	cairo_restore(cr);
-
-	cairo_set_color(cr, SECOND);
-	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
-	cairo_fill(cr);*/
 }
 
 static void draw_ball(cairo_t *cr)

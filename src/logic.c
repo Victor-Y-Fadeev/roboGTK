@@ -50,7 +50,7 @@ void init()
 		robots[i].y = (1 + (i % half) / 2) * MAX_HEIGHT / (1 + quarter);
 
 		robots[i].x_speed = 0;
-		robots[i].y_speed = 0;
+		robots[i].y_speed = 1;
 	}
 
 	clock_gettime(CLOCK_MONOTONIC_RAW, &last);
@@ -87,6 +87,6 @@ int robot(uint8_t num, double *x, double *y, double *angle)
 		return 1;
 	}
 
-	//*angle;
+	*angle = 1;
 	return 0;
 }
