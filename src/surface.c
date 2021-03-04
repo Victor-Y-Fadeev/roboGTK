@@ -1,24 +1,48 @@
 #include "surface.h"
+#include <stdint.h>
 
+
+typedef uint32_t color_t;
+
+
+const color_t BACKGROUND = 0xC5E0B4;
+const color_t LINE = 0xFFFFFF;
+const color_t OBJECT = 0x262626;
+const color_t FIRST = 0xFFD966;
+const color_t SECOND = 0x9DC3E6;
+
+
+int width = 0;
+int height = 0;
 
 /* Surface to store current scribbles */
 cairo_surface_t *surface = NULL;
 
 
+static inline void cairo_set_color(cairo_t *cr, color_t color)
+{
+	cairo_set_source_rgb(cr
+		, (double)((color & 0xFF0000) >> 16) / 0xFF
+		, (double)((color & 0x00FF00) >> 8) / 0xFF
+		, (double)(color & 0x0000FF) / 0xFF);
+}
+
 static void clear_surface(void)
 {
 	cairo_t *cr = cairo_create(surface);
 
-	cairo_set_source_rgb(cr, 0.5, 1, 1);
+	//cairo_set_source_rgb(cr, 0.5, 1, 1);
+	cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
 
-	/*cairo_destroy(cr);
-cr = cairo_create(surface);
+	//cairo_destroy(cr);
+	//cr = cairo_create(surface);
 
-	cairo_set_source_rgb(cr, 0, 0, 0);
+	//cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_set_color(cr, LINE);
 	cairo_rectangle(cr, 0, 0, 100, 100);
 	cairo_fill(cr);
-	cairo_paint(cr);*/
+	//cairo_paint(cr);*/
 
 	cairo_destroy(cr);
 }
@@ -76,17 +100,10 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
 
 gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
-	/*cairo_set_source_surface(cr, surface, 0, 0);
-	cairo_set_source_rgb(cr, 1, 1, 1);
+	cairo_set_source_surface(cr, surface, 0, 0);
 	cairo_paint(cr);
 
-	cairo_set_source_rgb(cr, 0, 0, 0);
-	cairo_rectangle(cr, 0, 0, 100, 100);
-	cairo_fill(cr);
-
-	cairo_paint(cr);*/
-
-	return TRUE;
+	return FALSE;
 }
 
 void destroy(void)
