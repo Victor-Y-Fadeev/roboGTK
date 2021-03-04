@@ -52,8 +52,14 @@ static void update_surface()
 	cairo_translate(cr, 100, 100);
 	cairo_scale(cr, 1.5, 1);
 
+	cairo_save(cr);
 	cairo_rotate(cr, 1.5);
 	cairo_set_color(cr, FIRST);
+	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
+	cairo_fill(cr);
+	cairo_restore(cr);
+
+	cairo_set_color(cr, SECOND);
 	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
 	cairo_fill(cr);
 
