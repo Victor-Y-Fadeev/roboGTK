@@ -2,49 +2,12 @@
 #include "surface.h"
 
 
-static const char *const APPLICATION = "org.gtk.example";
-static const char *const TITLE = "Drawing Area";
+const char *const APPLICATION = "org.gtk.example";
+const char *const TITLE = "Drawing Area";
 
-static const gint MIN_WIDTH = 630;
-static const gint MIN_HEIGHT = 420;
+const gint MIN_WIDTH = 630;
+const gint MIN_HEIGHT = 420;
 
-
-static int i = 0;
-
-
-/* Create a new surface of the appropriate size to store our scribbles */
-static gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer data)
-{
-	resize(widget);
-
-	/* Initialize the surface to white */
-	update();
-
-	/* We've handled the configure event, no need for further processing. */
-	return TRUE;
-}
-
-/* Redraw the screen from the surface. Note that the ::draw
- * signal receives a ready-to-be-used cairo_t that is already
- * clipped to only draw the exposed areas of the widget
- */
-static gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
-{
-	/*cairo_set_source_surface(cr, surface, 0, 0);
-	cairo_paint(cr);
-
-	draw_brush(widget, i % 630, i / 630);
-	i += 6;*/
-
-	return update();
-}
-
-
-
-static void close_window(void)
-{
-	destroy();
-}
 
 static void activate(GtkApplication *app, gpointer user_data)
 {
@@ -53,7 +16,7 @@ static void activate(GtkApplication *app, gpointer user_data)
 	gtk_window_maximize(GTK_WINDOW(window));
 	//gtk_window_fullscreen(GTK_WINDOW(window));
 
-	g_signal_connect(window, "destroy", G_CALLBACK(close_window), NULL);
+	g_signal_connect(window, "destroy", G_CALLBACK(destroy), NULL);
 
 
 	GtkWidget *drawing_area = gtk_drawing_area_new();

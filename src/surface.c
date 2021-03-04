@@ -1,21 +1,24 @@
 #include "surface.h"
 
 
-static int width = 0;
-static int height = 0;
-
 /* Surface to store current scribbles */
-static cairo_surface_t *surface = NULL;
-
-static int i = 0;
+cairo_surface_t *surface = NULL;
 
 
 static void clear_surface(void)
 {
 	cairo_t *cr = cairo_create(surface);
 
-	cairo_set_source_rgb(cr, 1, 1, 1);
+	cairo_set_source_rgb(cr, 0.5, 1, 1);
 	cairo_paint(cr);
+
+	/*cairo_destroy(cr);
+cr = cairo_create(surface);
+
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_rectangle(cr, 0, 0, 100, 100);
+	cairo_fill(cr);
+	cairo_paint(cr);*/
 
 	cairo_destroy(cr);
 }
@@ -46,30 +49,47 @@ static void draw_brush(GtkWidget *widget, gdouble x, gdouble y)
  */
 
 
-gboolean resize(GtkWidget *const widget)
+gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer data)
 {
 	if (surface)
 	{
 		cairo_surface_destroy(surface);
 	}
 
-	width = gtk_widget_get_allocated_width(widget);
-	height = gtk_widget_get_allocated_height(widget);
-
 	surface = gdk_window_create_similar_surface(gtk_widget_get_window(widget)
-		, CAIRO_CONTENT_COLOR, width, height);
+		, CAIRO_CONTENT_COLOR
+		, gtk_widget_get_allocated_width(widget)
+		, gtk_widget_get_allocated_height(widget));
 
-	return surface ? TRUE : FALSE;
-}
+	if (!surface)
+	{
+		return FALSE;
+	}
 
-gboolean update()
-{
+	/*cairo_t *cr = cairo_create(surface);
+	const gboolean res = draw(widget, cr, data);
+	cairo_destroy(cr);*/
 	clear_surface();
 
 	return TRUE;
 }
 
-void destroy()
+gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+	/*cairo_set_source_surface(cr, surface, 0, 0);
+	cairo_set_source_rgb(cr, 1, 1, 1);
+	cairo_paint(cr);
+
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_rectangle(cr, 0, 0, 100, 100);
+	cairo_fill(cr);
+
+	cairo_paint(cr);*/
+
+	return TRUE;
+}
+
+void destroy(void)
 {
 	if (surface)
 	{
