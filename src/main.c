@@ -2,8 +2,8 @@
 #include "surface.h"
 
 
-const char *const APPLICATION = "org.gtk.example";
-const char *const TITLE = "Drawing Area";
+const char *const APPLICATION = "org.gtk.robots";
+const char *const TITLE = "РобоФутбол";
 
 const gint MIN_WIDTH = 630;
 const gint MIN_HEIGHT = 420;
