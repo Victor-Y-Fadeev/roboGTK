@@ -42,7 +42,7 @@ void init()
 	y_ball = MAX_HEIGHT / 2;
 
 
-	double speed = 100;
+	const double speed = 100;
 
 	int x_cur = 0;
 	int x_inc = 1;
@@ -88,6 +88,7 @@ void move()
 		if (robots[i].x < 0 || robots[i].x > MAX_WIDTH)
 		{
 			robots[i].x_speed *= -1;
+			robots[i].x += robots[i].x_speed * sec;
 		}
 
 		robots[i].y += robots[i].y_speed * sec;
@@ -95,6 +96,7 @@ void move()
 		if (robots[i].y < 0 || robots[i].y > MAX_HEIGHT)
 		{
 			robots[i].y_speed *= -1;
+			robots[i].y += robots[i].y_speed * sec;
 		}
 	}
 }
