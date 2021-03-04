@@ -37,13 +37,24 @@ static void update_surface(void)
 	cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
 
+	//cairo_translate(cr, 100, 100);
+	//cairo_scale(cr, 1.5, 1);
+	//cairo_translate(cr, -100, -100);
+
 	cairo_set_color(cr, LINE);
 	cairo_rectangle(cr, 50, 50, 100, 100);
 	cairo_rectangle(cr, 100, 100, 100, 100);
 	cairo_fill(cr);
 
+	cairo_destroy(cr);
+	cr = cairo_create(surface);
+
+	cairo_translate(cr, 100, 100);
+	cairo_scale(cr, 1.5, 1);
+
+	cairo_rotate(cr, 1.5);
 	cairo_set_color(cr, FIRST);
-	cairo_rectangle(cr, 250, 250, 100, 100);
+	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
 	cairo_fill(cr);
 
 	cairo_destroy(cr);
