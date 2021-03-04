@@ -1,6 +1,7 @@
 #include "logic.h"
 #include <math.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include <time.h>
 
 
@@ -49,8 +50,8 @@ void init()
 		const int quarter = ceil((double)MAX_ROBOTS / 4);
 		robots[i].y = (1 + (i % half) / 2) * MAX_HEIGHT / (1 + quarter);
 
-		robots[i].x_speed = 0;
-		robots[i].y_speed = 1;
+		robots[i].x_speed = 1;
+		robots[i].y_speed = -5;
 	}
 
 	clock_gettime(CLOCK_MONOTONIC_RAW, &last);
@@ -82,11 +83,15 @@ int robot(uint8_t num, double *x, double *y, double *angle)
 	*x = robots[num].x;
 	*y = robots[num].y;
 
-	if (robots[num].x_speed < 0.000001 && robots[num].y_speed < 0.000001)
+	if (abs(robots[num].x_speed) < 0.000001 && abs(robots[num].y_speed) < 0.000001)
 	{
 		return 1;
 	}
 
-	*angle = 1;
+	*angle = abs(robots[num].x_speed) < 0.000001
+			? robots[num].y_speed > 0 ? M_PI : 0
+			: robots[num].x_speed > 0
+				? atan(robots[num].y_speed / robots[num].x_speed) + M_PI / 2
+				: atan(robots[num].y_speed / robots[num].x_speed) - M_PI / 2;
 	return 0;
 }
