@@ -69,7 +69,23 @@ static void draw_robot(cairo_t *cr, uint8_t num)
 
 static void draw_ball(cairo_t *cr)
 {
+	const double cm_width = 27;
+	const double cm_height = 18;
+	const double cm_radius = 1.0 / 3;
 
+	cairo_save(cr);
+
+	double x, y;
+	ball(&x, &y);
+	cairo_translate(cr, x, y);
+
+	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
+
+	cairo_set_color(cr, OBJECT);
+	cairo_arc(cr, 0, 0, cm_radius, 0, 2 * G_PI);
+	cairo_fill_preserve(cr);
+
+	cairo_restore(cr);
 }
 
 static void draw_field(cairo_t *cr)
@@ -178,7 +194,7 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
 	/* Initialize the surface */
 	update_surface();
 
-	/* We've handled the configure event, no need for further processing. */
+	/* We've handled the configure event, no need for further processing */
 	return TRUE;
 }
 
@@ -188,6 +204,9 @@ gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_paint(cr);
 
 	update_surface();
+
+	/* Now invalidate the drawing area */
+	gtk_widget_queue_draw(widget);
 	return FALSE;
 }
 
