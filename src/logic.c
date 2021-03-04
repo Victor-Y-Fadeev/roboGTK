@@ -42,11 +42,13 @@ void init()
 	y_ball = MAX_HEIGHT / 2;
 
 
-	double x_cur = 0;
-	double x_inc = 1;
+	double speed = 100;
 
-	double y_cur = -3;
-	double y_inc = 1;
+	int x_cur = 0;
+	int x_inc = 1;
+
+	int y_cur = -3;
+	int y_inc = 1;
 
 	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
 	{
@@ -57,13 +59,13 @@ void init()
 		const int quarter = ceil((double)MAX_ROBOTS / 4);
 		robots[i].y = (1 + (i % half) / 2) * MAX_HEIGHT / (1 + quarter);
 
-		robots[i].x_speed = x_cur;
+		robots[i].x_speed = x_cur * speed;
 		x_cur += x_inc;
-		x_inc *= abs(x_cur) == 3 ? -1 : 1;
+		x_inc *= (int)abs(x_cur) == 3 ? -1 : 1;
 
-		robots[i].y_speed = y_cur;
+		robots[i].y_speed = y_cur * speed;
 		y_cur += y_inc;
-		y_inc *= abs(y_cur) == 3 ? -1 : 1;
+		y_inc *= (int)abs(y_cur) == 3 ? -1 : 1;
 	}
 
 
@@ -77,6 +79,24 @@ void move()
 
 	double sec = current.tv_sec - last.tv_sec + (double)(current.tv_nsec - last.tv_nsec) / 1000000000;
 	last = current;
+
+
+	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
+	{
+		robots[i].x += robots[i].x_speed * sec;
+
+		if (robots[i].x < 0 || robots[i].x > MAX_WIDTH)
+		{
+			robots[i].x_speed *= -1;
+		}
+
+		robots[i].y += robots[i].y_speed * sec;
+
+		if (robots[i].y < 0 || robots[i].y > MAX_HEIGHT)
+		{
+			robots[i].y_speed *= -1;
+		}
+	}
 }
 
 
