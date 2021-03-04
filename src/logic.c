@@ -14,11 +14,15 @@ typedef struct data
 } data;
 
 
+/* Last update time */
+struct timespec last;
+
 /* Robot coordinates array */
 data robots[MAX_ROBOTS];
 
-/* Last update time */
-struct timespec last;
+/* Ball coordinates */
+double x_ball;
+double y_ball;
 
 
 /*
@@ -47,7 +51,8 @@ void move()
 
 void ball(double *x, double *y)
 {
-
+	*x = x_ball;
+	*y = y_ball;
 }
 
 int robot(uint8_t num, double *x, double *y, double *angle)
