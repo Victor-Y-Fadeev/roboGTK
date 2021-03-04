@@ -1,4 +1,5 @@
 #include "logic.h"
+#include <math.h>
 #include <stddef.h>
 #include <time.h>
 
@@ -36,6 +37,17 @@ double y_ball;
 
 void init()
 {
+	x_ball = MAX_WIDTH / 2;
+	y_ball = MAX_HEIGHT / 2;
+
+	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
+	{
+		robots[i].x = 0;
+		robots[i].y = 0;
+		robots[i].x_speed = 0;
+		robots[i].y_speed = 0;
+	}
+
 	clock_gettime(CLOCK_MONOTONIC_RAW, &last);
 }
 
@@ -64,5 +76,12 @@ int robot(uint8_t num, double *x, double *y, double *angle)
 
 	*x = robots[num].x;
 	*y = robots[num].y;
+
+	if (robots[num].x_speed < 0.000001 && robots[num].y_speed < 0.000001)
+	{
+		return 1;
+	}
+
 	//*angle;
+	return 0;
 }
