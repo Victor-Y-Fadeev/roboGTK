@@ -42,8 +42,8 @@ void init()
 
 	for (uint8_t i = 0; i < MAX_ROBOTS; i++)
 	{
-		robots[i].x = 0;
-		robots[i].y = 0;
+		robots[i].x = 200 + 500 * i;
+		robots[i].y = 200;
 		robots[i].x_speed = 0;
 		robots[i].y_speed = 0;
 	}

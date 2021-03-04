@@ -33,6 +33,30 @@ static inline void cairo_set_color(cairo_t *cr, color_t color)
 
 static void draw_robot(cairo_t *cr, uint8_t num)
 {
+	const double cm_width = 27;
+	const double cm_height = 18;
+	const double cm_diameter = 1;
+
+	const double cm_centre = cm_diameter / 3;
+	const double cm_arrow = cm_diameter / 4;
+
+	cairo_save(cr);
+
+	double x, y, angle;
+	const int stop = robot(num, &x, &y, &angle);
+	cairo_translate(cr, x, y);
+
+	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
+
+	cairo_set_color(cr, OBJECT);
+	cairo_arc(cr, 0, 0, cm_diameter / 2, 0, 2 * G_PI);
+
+	//cairo_set_color(cr, num < MAX_ROBOTS / 2 ? FIRST : SECOND);
+
+	cairo_fill(cr);
+
+	cairo_restore(cr);
+
 	/*cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
 
@@ -71,7 +95,7 @@ static void draw_ball(cairo_t *cr)
 {
 	const double cm_width = 27;
 	const double cm_height = 18;
-	const double cm_radius = 1.0 / 3;
+	const double cm_diameter = 1.0 / 3;
 
 	cairo_save(cr);
 
@@ -82,8 +106,8 @@ static void draw_ball(cairo_t *cr)
 	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
 
 	cairo_set_color(cr, OBJECT);
-	cairo_arc(cr, 0, 0, cm_radius, 0, 2 * G_PI);
-	cairo_fill_preserve(cr);
+	cairo_arc(cr, 0, 0, cm_diameter / 2, 0, 2 * G_PI);
+	cairo_fill(cr);
 
 	cairo_restore(cr);
 }
