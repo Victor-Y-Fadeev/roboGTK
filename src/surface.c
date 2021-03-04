@@ -31,6 +31,54 @@ static inline void cairo_set_color(cairo_t *cr, color_t color)
 		, (double)(color & 0x0000FF) / 0xFF);
 }
 
+static void background(cairo_t *cr)
+{
+	const double cm_width = 27;
+	const double cm_height = 18;
+	const double cm_line = 0.25;
+
+	const double cm_gate_width = cm_width / 9 - cm_line;
+	const double cm_gate_height = cm_height / 3;
+
+	cairo_save(cr);
+	cairo_scale(cr, MAX_WIDTH / cm_width, MAX_HEIGHT / cm_height);
+
+	cairo_set_color(cr, BACKGROUND);
+	cairo_paint(cr);
+
+
+	cairo_set_color(cr, LINE);
+
+	cairo_rectangle(cr, cm_line, cm_line
+		, cm_width - 2 * cm_line, cm_line);
+	cairo_rectangle(cr, cm_line, cm_height - 2 * cm_line
+		, cm_width - 2 * cm_line, cm_line);
+	cairo_rectangle(cr, cm_line, cm_line
+		, cm_line, cm_height - 2 * cm_line);
+	cairo_rectangle(cr, cm_width - 2 * cm_line, cm_line
+		, cm_line, cm_height - 2 * cm_line);
+
+	cairo_rectangle(cr, (cm_width - cm_line) / 2, cm_line, cm_line, cm_height - 2 * cm_line);
+
+	cairo_rectangle(cr, cm_line, (cm_height - cm_gate_height) / 2
+		, cm_gate_width, cm_line);
+	cairo_rectangle(cr, cm_line, (cm_height + cm_gate_height) / 2 - cm_line
+		, cm_gate_width, cm_line);
+	cairo_rectangle(cr, cm_gate_width, (cm_height - cm_gate_height) / 2
+		, cm_line, cm_gate_height);
+
+	cairo_rectangle(cr, cm_width - cm_gate_width - cm_line, (cm_height - cm_gate_height) / 2
+		, cm_gate_width, cm_line);
+	cairo_rectangle(cr, cm_width - cm_gate_width - cm_line, (cm_height + cm_gate_height) / 2 - cm_line
+		, cm_gate_width, cm_line);
+	cairo_rectangle(cr, cm_width - cm_gate_width - cm_line, (cm_height - cm_gate_height) / 2
+		, cm_line, cm_gate_height);
+
+	cairo_fill(cr);
+
+	cairo_restore(cr);
+}
+
 static void update_surface()
 {
 	cairo_t *cr = cairo_create(surface);
@@ -48,13 +96,13 @@ static void update_surface()
 		cairo_scale(cr, scale, scale);
 	}
 
-
-	cairo_set_color(cr, BACKGROUND);
+	background(cr);
+	/*cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
 
 	cairo_set_color(cr, LINE);
 	cairo_rectangle(cr, 100, 100, 8800, 5800);
-	cairo_fill(cr);
+	cairo_fill(cr);*/
 
 	//cairo_translate(cr, 100, 100);
 	//cairo_scale(cr, 1.5, 1);
