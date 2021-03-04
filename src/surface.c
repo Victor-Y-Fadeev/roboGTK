@@ -30,7 +30,7 @@ static inline void cairo_set_color(cairo_t *cr, color_t color)
 		, (double)(color & 0x0000FF) / 0xFF);
 }
 
-static void update_surface(void)
+static void update_surface()
 {
 	cairo_t *cr = cairo_create(surface);
 
@@ -99,7 +99,7 @@ gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 	return FALSE;
 }
 
-void destroy(void)
+void destroy()
 {
 	if (surface)
 	{

@@ -35,7 +35,7 @@ gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data);
 /**
  *	Destroy current surface
  */
-void destroy(void);
+void destroy();
 
 #ifdef __cplusplus
 } /* extern "C" */
