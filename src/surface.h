@@ -14,7 +14,7 @@ extern "C" {
  *	@param	event		Event which triggered the signal
  *	@param	data		User data
  *
- *	@return	@c TRUE on success, @c FALSE on failure
+ *	@return	@c TRUE to stop other handlers from being invoked for the event
  */
 gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer data);
 
@@ -28,7 +28,7 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
  *	@param	cr			Cairo context
  *	@param	data		User data
  *
- *	@return	@c TRUE on success, @c FALSE on failure
+ *	@return	@c FALSE to propagate the event further
  */
 gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data);
 

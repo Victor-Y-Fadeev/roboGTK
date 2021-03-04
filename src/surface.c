@@ -2,9 +2,11 @@
 #include <stdint.h>
 
 
+/* Color type */
 typedef uint32_t color_t;
 
 
+/* Default colors */
 const color_t BACKGROUND = 0xC5E0B4;
 const color_t LINE = 0xFFFFFF;
 const color_t OBJECT = 0x262626;
@@ -12,6 +14,7 @@ const color_t FIRST = 0xFFD966;
 const color_t SECOND = 0x9DC3E6;
 
 
+/* Current window size */
 int width = 0;
 int height = 0;
 
@@ -31,18 +34,17 @@ static void update_surface(void)
 {
 	cairo_t *cr = cairo_create(surface);
 
-	//cairo_set_source_rgb(cr, 0.5, 1, 1);
 	cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
 
-	//cairo_destroy(cr);
-	//cr = cairo_create(surface);
-
-	//cairo_set_source_rgb(cr, 0, 0, 0);
 	cairo_set_color(cr, LINE);
-	cairo_rectangle(cr, 0, 0, 100, 100);
+	cairo_rectangle(cr, 50, 50, 100, 100);
+	cairo_rectangle(cr, 100, 100, 100, 100);
 	cairo_fill(cr);
-	//cairo_paint(cr);*/
+
+	cairo_set_color(cr, FIRST);
+	cairo_rectangle(cr, 250, 250, 100, 100);
+	cairo_fill(cr);
 
 	cairo_destroy(cr);
 }
@@ -64,10 +66,11 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
 		cairo_surface_destroy(surface);
 	}
 
+	width = gtk_widget_get_allocated_width(widget);
+	height = gtk_widget_get_allocated_height(widget);
 	surface = gdk_window_create_similar_surface(gtk_widget_get_window(widget)
-		, CAIRO_CONTENT_COLOR
-		, gtk_widget_get_allocated_width(widget)
-		, gtk_widget_get_allocated_height(widget));
+		, CAIRO_CONTENT_COLOR, width, height);
+
 
 	/* Initialize the surface */
 	update_surface();
