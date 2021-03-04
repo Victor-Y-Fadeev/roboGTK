@@ -9,8 +9,8 @@ typedef struct data
 	double x;			/**< X coordinate */
 	double y;			/**< Y coordinate */
 
-	double x_speed;		/**< X speed vector coordinate */
-	double y_speed;		/**< X speed vector coordinate */
+	double x_speed;		/**< X speed vector coordinate (mm/sec) */
+	double y_speed;		/**< Y speed vector coordinate (mm/sec) */
 } data;
 
 
