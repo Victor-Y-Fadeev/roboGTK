@@ -1,5 +1,6 @@
 #include "surface.h"
 #include <stdint.h>
+#include "logic.h"
 
 
 /* Color type */
@@ -34,14 +35,32 @@ static void update_surface()
 {
 	cairo_t *cr = cairo_create(surface);
 
+	if ((double)width / height < MAX_WIDTH / MAX_HEIGHT)
+	{
+		const double scale = (double)width / MAX_WIDTH;
+		cairo_translate(cr, 0, (height - MAX_HEIGHT * scale) / 2);
+		cairo_scale(cr, scale, scale);
+	}
+	else
+	{
+		const double scale = (double)height / MAX_HEIGHT;
+		cairo_translate(cr, (width - MAX_WIDTH * scale) / 2, 0);
+		cairo_scale(cr, scale, scale);
+	}
+
+
 	cairo_set_color(cr, BACKGROUND);
 	cairo_paint(cr);
+
+	cairo_set_color(cr, LINE);
+	cairo_rectangle(cr, 100, 100, 8800, 5800);
+	cairo_fill(cr);
 
 	//cairo_translate(cr, 100, 100);
 	//cairo_scale(cr, 1.5, 1);
 	//cairo_translate(cr, -100, -100);
 
-	cairo_set_color(cr, LINE);
+	/*cairo_set_color(cr, LINE);
 	cairo_rectangle(cr, 50, 50, 100, 100);
 	cairo_rectangle(cr, 100, 100, 100, 100);
 	cairo_fill(cr);
@@ -61,7 +80,7 @@ static void update_surface()
 
 	cairo_set_color(cr, SECOND);
 	cairo_rectangle(cr, -2.50, -6.50, 50, 50);
-	cairo_fill(cr);
+	cairo_fill(cr);*/
 
 	cairo_destroy(cr);
 }
