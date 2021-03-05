@@ -2,6 +2,10 @@
 #include "logic.h"
 #include "surface.h"
 
+#if defined(_WIN32) || defined(_WIN64)
+	#include <windows.h>
+#endif
+
 
 const char *const APPLICATION = "org.gtk.robots";
 const char *const TITLE = "РобоФутбол";
@@ -37,6 +41,11 @@ static void activate(GtkApplication *app, gpointer user_data)
 
 int main(int argc, char **argv)
 {
+#if defined(_WIN32) || defined(_WIN64)
+	HWND var=GetConsoleWindow();
+	ShowWindow(var, SW_HIDE);
+#endif
+
 	/* Initialize logic */
 	init();
 
