@@ -69,13 +69,13 @@ void init()
 	}
 
 
-	clock_gettime(CLOCK_MONOTONIC_RAW, &last);
+	clock_gettime(CLOCK_MONOTONIC, &last);
 }
 
 void move()
 {
 	struct timespec current;
-	clock_gettime(CLOCK_MONOTONIC_RAW, &current);
+	clock_gettime(CLOCK_MONOTONIC, &current);
 
 	double sec = current.tv_sec - last.tv_sec + (double)(current.tv_nsec - last.tv_nsec) / 1000000000;
 	last = current;
