@@ -35,18 +35,18 @@ void move();
 /**
  *	Get ball coordinates
  *
- *	@param	x			X coordinate
- *	@param	y			Y coordinate
+ *	@param	x				X coordinate
+ *	@param	y				Y coordinate
  */
 void ball(double *x, double *y);
 
 /**
  *	Get robot coordinates
  *
- *	@param	num			Robot number
- *	@param	x			X coordinate
- *	@param	y			Y coordinate
- *	@param	angle		Speed vector angle
+ *	@param	num				Robot number
+ *	@param	x				X coordinate
+ *	@param	y				Y coordinate
+ *	@param	angle			Speed vector angle
  *
  *	@return	@c 1 on robot stop, @c 0 on otherwise
  */

@@ -10,9 +10,9 @@ extern "C" {
 /**
  *	Create a new surface of the appropriate size
  *
- *	@param	widget		Widget contained surface
- *	@param	event		Event which triggered the signal
- *	@param	data		User data
+ *	@param	widget			Widget contained surface
+ *	@param	event			Event which triggered the signal
+ *	@param	data			User data
  *
  *	@return	@c TRUE to stop other handlers from being invoked for the event
  */
@@ -24,14 +24,23 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
  *	@note The draw signal receives a ready-to-be-used cairo_t
  *		that is already clipped to only draw the exposed areas
  *
- *	@param	widget		Widget contained surface
- *	@param	cr			Cairo context
- *	@param	data		User data
+ *	@param	widget			Widget contained surface
+ *	@param	cr				Cairo context
+ *	@param	data			User data
  *
  *	@return	@c FALSE to propagate the event further
  */
 gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data);
 
+/**
+ *	Animation frame update
+ *
+ *	@param	widget			Widget contained surface
+ *	@param	frame_clock		The frame clock
+ *	@param	data			User data
+ *
+ *	@return	@c G_SOURCE_CONTINUE to continue the tick callback
+ */
 gboolean callback(GtkWidget *widget, GdkFrameClock *frame_clock, gpointer user_data);
 
 /**
