@@ -61,11 +61,11 @@ void init()
 
 		robots[i].x_speed = x_cur * speed;
 		x_cur += x_inc;
-		x_inc *= (int)abs(x_cur) == 3 ? -1 : 1;
+		x_inc *= abs(x_cur) == 3 ? -1 : 1;
 
 		robots[i].y_speed = y_cur * speed;
 		y_cur += y_inc;
-		y_inc *= (int)abs(y_cur) == 3 ? -1 : 1;
+		y_inc *= abs(y_cur) == 3 ? -1 : 1;
 	}
 
 
@@ -118,12 +118,12 @@ int robot(uint8_t num, double *x, double *y, double *angle)
 	*x = robots[num].x;
 	*y = robots[num].y;
 
-	if (abs(robots[num].x_speed) < 0.000001 && abs(robots[num].y_speed) < 0.000001)
+	if (fabs(robots[num].x_speed) < 0.000001 && fabs(robots[num].y_speed) < 0.000001)
 	{
 		return 1;
 	}
 
-	*angle = abs(robots[num].x_speed) < 0.000001
+	*angle = fabs(robots[num].x_speed) < 0.000001
 			? robots[num].y_speed > 0 ? M_PI : 0
 			: robots[num].x_speed > 0
 				? atan(robots[num].y_speed / robots[num].x_speed) + M_PI / 2
