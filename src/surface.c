@@ -223,11 +223,21 @@ gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_set_source_surface(cr, surface, 0, 0);
 	cairo_paint(cr);
 
+	//update_surface();
+
+	/* Now invalidate the drawing area */
+	//gtk_widget_queue_draw(widget);
+	return FALSE;
+}
+
+gboolean callback(GtkWidget *widget, GdkFrameClock *frame_clock, gpointer user_data)
+{
 	update_surface();
 
 	/* Now invalidate the drawing area */
 	gtk_widget_queue_draw(widget);
-	return FALSE;
+
+	return G_SOURCE_CONTINUE;
 }
 
 void destroy()

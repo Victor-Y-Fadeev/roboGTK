@@ -35,6 +35,8 @@ static void activate(GtkApplication *app, gpointer user_data)
 	g_signal_connect(drawing_area, "configure-event", G_CALLBACK(configure_event), NULL);
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(draw), NULL);
 
+	gtk_widget_add_tick_callback(drawing_area, callback, NULL, NULL);
+
 
 	gtk_widget_show_all(window);
 }

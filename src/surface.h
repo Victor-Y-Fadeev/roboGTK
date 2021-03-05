@@ -32,6 +32,8 @@ gboolean configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer d
  */
 gboolean draw(GtkWidget *widget, cairo_t *cr, gpointer data);
 
+gboolean callback(GtkWidget *widget, GdkFrameClock *frame_clock, gpointer user_data);
+
 /**
  *	Destroy current surface
  */
