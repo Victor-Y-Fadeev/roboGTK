@@ -77,7 +77,7 @@ static void draw_robot(cairo_t *cr, uint8_t num)
 	cairo_select_font_face(cr, "Calibri", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
 	cairo_set_font_size(cr, cm_centre);
 
-	cairo_move_to(cr, -cm_centre / 2.75, cm_centre / 2.75);
+	cairo_move_to(cr, -cm_centre / 3, cm_centre / 3);
 
 	char buf[3];
 	sprintf(buf, "%01X", num + 1);
