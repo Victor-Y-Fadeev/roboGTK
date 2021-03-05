@@ -7,7 +7,7 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS "*.c")
 file(GLOB_RECURSE HDR CONFIGURE_DEPENDS "*.h")
 
 source_group("\\" FILES ${SRC} ${HDR})
-add_executable(${PROJECT_NAME} ${SRC} ${HDR} ${CMAKE_SOURCE_DIR}/icon.rc)
+add_executable(${PROJECT_NAME} ${SRC} ${HDR} ${CMAKE_SOURCE_DIR}/res/icon.rc)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 
